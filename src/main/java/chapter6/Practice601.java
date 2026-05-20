@@ -28,10 +28,18 @@ public class Practice601 extends HttpServlet {
 		String destination = request.getParameter("destination");
 		int days = Integer.parseInt(request.getParameter("days"));
 		String transport = request.getParameter("transport");
+		String campaing = request.getParameter("campaing");
 		
 		Page.header(out);
 		
+		out.println("<p>「" + destination + "」への旅行を" + days +"日間、"
+				+ "交通手段は「" + transport + "」で予約しました。</p>");
 		
+		if("spring2026".equals(campaing)) {
+			out.println("<p>春のキャンペーンを適用しました</p>");
+		}else {
+			out.println("<p>春のキャンペーンは適用されませんでした。</p>");
+		}
 		
 		Page.footer(out);
 	}
