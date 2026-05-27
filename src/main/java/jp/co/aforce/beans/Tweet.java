@@ -6,16 +6,16 @@ public class Tweet implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String content;
+	private String countent;
 	private String postedAt;
 	private String author;
 
 	public Tweet() {
 	}
 
-	public Tweet(int id, String content, String postedAt, String author) {
+	public Tweet(int id, String countent, String postedAt, String author) {
 		this.id = id;
-		this.content = content;
+		this.countent = countent;
 		this.postedAt = postedAt;
 		this.author = author;
 	}
@@ -29,11 +29,11 @@ public class Tweet implements Serializable {
 	}
 
 	public String getContent() {
-		return content;
+		return countent;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setContent(String countent) {
+		this.countent = countent;
 	}
 
 	public String getPostedAt() {

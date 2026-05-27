@@ -13,11 +13,11 @@
 		<form action="new_tweet" method="post">
 			<div>
 				<label for="content">内容:</label><br>
-				<textarea id="content" name="content" rows="4" cols="50" required></textarea>
+				<textarea id="content" name="content" rows="4" cols="50" ></textarea>
 			</div>
 			<div>
 				<label for="author">投稿者:</label><br> <input type="text"
-					id="author" name="author" required>
+					id="author" name="author">
 			</div>
 			<div>
 				<input type="submit" value="投稿する">

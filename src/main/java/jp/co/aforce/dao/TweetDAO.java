@@ -14,15 +14,15 @@ public class TweetDAO extends DAO {
 	public List<Tweet> getAllTweets() throws Exception {
 		List<Tweet> tweets = new ArrayList<>();
 		Connection con = getConnection();
-		String sql = "SELECT id, content, posted_at, author FROM tweets ORDER BY posted_at DESC";
+		String sql = "SELECT id, countent, posted_at, author FROM tweets ORDER BY posted_at DESC";
 		PreparedStatement st = con.prepareStatement(sql);
 		ResultSet rs = st.executeQuery();
 		while (rs.next()) {
 			int id = rs.getInt("id");
-			String content = rs.getString("content");
+			String countent = rs.getString("countent");
 			String postedAt = rs.getString("posted_at");
 			String author = rs.getString("author");
-			Tweet tweet = new Tweet(id, content, postedAt, author);
+			Tweet tweet = new Tweet(id, countent, postedAt, author);
 			tweets.add(tweet);
 		}
 
@@ -32,11 +32,11 @@ public class TweetDAO extends DAO {
 	}
 
 	//ツイートを新規投稿するメソッド
-	public void addTweet(String content, String author) throws Exception {
+	public void addTweet(String countent, String author) throws Exception {
 		Connection con = getConnection();
-		String sql = "INSERT INTO tweets (content, author) VALUES (?, ?)";
+		String sql = "INSERT INTO tweets (countent, author) VALUES (?, ?)";
 		PreparedStatement st = con.prepareStatement(sql);
-		st.setString(1, content);
+		st.setString(1, countent);
 		st.setString(2, author);
 		st.executeUpdate();
 
