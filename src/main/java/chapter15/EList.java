@@ -15,7 +15,7 @@ import dao.EmployeesDAO;
 /**
  * Servlet implementation class List
  */
-@WebServlet("/chapter16/list")
+@WebServlet("/chapter15/list")
 public class EList extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

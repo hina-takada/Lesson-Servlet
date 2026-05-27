@@ -57,24 +57,21 @@ public class EmployeesDAO extends DAO {
 	public boolean insert(Employees employees) throws Exception {
 		Connection con = getConnenction();
 
-		PreparedStatement ps = con.prepareStatement("INSERT INTO employees(name,age)VALUES(?,?)");
+		
+		PreparedStatement ps = con.prepareStatement("SELECT count(*) FROM employees WHERE name = ?");
+		ps.setString(1, employees.getName());
+		ResultSet rs = ps.executeQuery();
+		
+		if(rs.next() && rs.getInt(1) > 0) {
+			return false;
+		}
+		
+		ps = con.prepareStatement("INSERT INTO employees(name,age)VALUES(?,?)");
 		ps.setString(1, employees.getName());
 		ps.setInt(2, employees.getAge());
 		ps.executeUpdate();
 		
-		ps = con.prepareStatement("SELECT * FROM employees WHERE id = ?");
-		ps.setInt(1, employees.getId());
-		int line = 0;
-		boolean check;
-		
-		if(line == 1) {
-			check = false;
-		}else {
-			line++;
-			check = true;
-		}
-		
-		return check;
+		return true;
 	}
 
 	public boolean update(Employees employees) throws Exception {
