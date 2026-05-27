@@ -3,7 +3,7 @@ package chapter14;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -19,61 +19,50 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet("/chapter14/bbs")
 public class Bbs extends HttpServlet {
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		request.setCharacterEncoding("UTF-8");
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/chapter14");
-			Connection con = ds.getConnection();
-
-			String name = request.getParameter("name");
-			String content = request.getParameter("content");
-
-			if (name == null && name.isEmpty()) {
-
-			}
-			if (content == null && content.isEmpty()) {
-
-			}
-
-			PreparedStatement ps = con.prepareStatement("INSERT INTO posts(name,content) VALUES (?,?)");
-			ps.setString(1, name);
-			ps.setString(2, content);
-			ps.executeUpdate();
-			
-			response.sendRedirect("/index.jsp");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 			
+		//文字化け対策
 			request.setCharacterEncoding("UTF-8");
-
+			
+			Connection con = null;
+			PreparedStatement ps = null;
 		try {
+			//DB接続
 			InitialContext ic = new InitialContext();
 			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/chapter14");
-			Connection con = ds.getConnection();
-
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM posts order by post_date");
-			ResultSet rs = ps.executeQuery();
+			con = ds.getConnection();
 			
-			String rsName = rs.getString("name");
-			String content = rs.getString("content");
+			String name = request.getParameter("name");
+			String content = request.getParameter("content");
+			
+			//登録
+			ps = con.prepareStatement("INSERT INTO posts (name,content,post_date) VALUES (?,?,?)");
+			ps.setString(1, name);
+			ps.setString(2, content);
+			ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			ps.executeUpdate();
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if(ps != null) 
+				try {
+					ps.close();
+				} catch (Exception e) {
+				}
+			if(con != null) 
+				try {
+					ps.close();
+				} catch (Exception e) {
+				}
 		}
-			
+		//リダイレクト
+		response.sendRedirect(request.getContextPath() + "/chapter14/index.jsp" );
 
 	}
 
